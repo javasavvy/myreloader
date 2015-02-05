@@ -4,7 +4,7 @@ package com.myreloader.controller;
  * Created by Justin on 1/30/2015.
  */
 
-import com.myreloader.dao.BookDao;
+import com.myreloader.manager.BookManager;
 import com.myreloader.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,36 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     @Autowired
-    protected BookDao bookDao;
+    private BookManager bookManager;
 
     @RequestMapping
     public Iterable<Book> books() {
-        return bookDao.findAll(); // uses the findAll() method inherited from CrudRepository
+        return bookManager.findAll();
     }
 
 
     @RequestMapping(value = "/{isbn}")
     public Book book(@PathVariable("isbn") String isbn) {
-        return bookDao.findOne(isbn);// uses the findOne() method inherited from CrudRepository
-// adding a comment
+        return bookManager.find(isbn);
     }
 
 
     @RequestMapping(value = "/{isbn}", method = RequestMethod.DELETE)
     public String deleteBook(@PathVariable("isbn") String isbn) {
-
-        try {
-            bookDao.delete(isbn);
-            return String.format("Book [%s] successfully deleted", isbn);// uses the delete() method inherited from CrudRepository
-        } catch (Exception e) {
-            return String.format("A problem occurred when deleting Book [%s]", e.getMessage());
-        }
+        return bookManager.delete(isbn);
     }
 
     @RequestMapping("/author/{author}")
     public Iterable<Book> booksByAuthor(@PathVariable("author") String author) {
+        return bookManager.findBooksByAuthor(author);
 
-        return bookDao.findBooksByAuthor(author);// uses the custom method defined in our bookDao interface
     }
 
 

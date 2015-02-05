@@ -11,7 +11,7 @@ package com.myreloader.dao;
         Auto-implementation of methods based on naming convention such as findBooksByAuthor()
         And the best part is you get all of this without writing any code logic for these methods
 */
-import com.myreloader.dao.BookDao;
+
 import com.myreloader.model.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +21,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookDao extends CrudRepository<Book, String> {
 
-    public Iterable<Book>findBooksByAuthor(@Param("author")String author);
+        /**
+         * Defines Custom method in the interface.  Spring Boot will automatically generate a
+         * method with a query to find all books based on the author book property type and naming
+         * conventions!
+         * @param author  author of the books you wish to locate
+         * @return Books written by "author"
+         */
+        public Iterable<Book>findBooksByAuthor(@Param("author")String author);
 
 }
