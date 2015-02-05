@@ -4,8 +4,8 @@ package com.myreloader.controller;
  * Created by Justin on 1/30/2015.
  */
 
-import com.myreloader.model.impl.BookImpl;
-import com.myreloader.dao.impl.BookRepository;
+import com.myreloader.dao.BookDao;
+import com.myreloader.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     @Autowired
-    protected BookRepository bookRepository;
+    protected BookDao bookDao;
 
     @RequestMapping
-    public Iterable<BookImpl> books() {
-        return bookRepository.findAll(); // uses the findAll() method inherited from CrudRepository
+    public Iterable<Book> books() {
+        return bookDao.findAll(); // uses the findAll() method inherited from CrudRepository
     }
 
 
     @RequestMapping(value = "/{isbn}")
-    public BookImpl book(@PathVariable("isbn") String isbn) {
-        return bookRepository.findOne(isbn);// uses the findOne() method inherited from CrudRepository
+    public Book book(@PathVariable("isbn") String isbn) {
+        return bookDao.findOne(isbn);// uses the findOne() method inherited from CrudRepository
 // adding a comment
     }
 
@@ -38,7 +38,7 @@ public class BookController {
     public String deleteBook(@PathVariable("isbn") String isbn) {
 
         try {
-            bookRepository.delete(isbn);
+            bookDao.delete(isbn);
             return String.format("Book [%s] successfully deleted", isbn);// uses the delete() method inherited from CrudRepository
         } catch (Exception e) {
             return String.format("A problem occurred when deleting Book [%s]", e.getMessage());
@@ -46,9 +46,9 @@ public class BookController {
     }
 
     @RequestMapping("/author/{author}")
-    public Iterable<BookImpl> booksByAuthor(@PathVariable("author") String author) {
+    public Iterable<Book> booksByAuthor(@PathVariable("author") String author) {
 
-        return bookRepository.findBooksByAuthor(author);// uses the custom method defined in our BookRepository interface
+        return bookDao.findBooksByAuthor(author);// uses the custom method defined in our bookDao interface
     }
 
 

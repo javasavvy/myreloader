@@ -3,7 +3,7 @@ package com.myreloader.model.impl;
 /**
  * Created by Justin on 1/30/2015.
  */
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.awt.print.Book;
@@ -15,7 +15,7 @@ public class BookImpl extends Book{
     private String isbn;
     private String title;
     private String author;
-    private String descrition;
+    private String description;
 
     public String getIsbn() {
         return isbn;
